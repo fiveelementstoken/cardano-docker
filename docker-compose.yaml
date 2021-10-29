@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  cardano-main-node:
+    image: inputoutput/cardano-node
+    restart: on-failure
+    container_name: mainnet-node
+    volumes:
+      - "./config:/config"
+      - "./data/main/node:/data"
+      - "./data/main/ipc:/ipc"
+    command: >
+      run
+        --database-path /data/main
+        --topology /config/mainnet-topology.json
+        --config /config/mainnet-config.json
+        --socket-path /main/ipc/node.socket
+        --host-addr 0.0.0.0
+        --port 3001
+  cardano-test-node:
+    image: inputoutput/cardano-node
+    restart: on-failure
+    container_name: testnet-node
+    volumes:
+      - "./config:/config"
+      - "./data/test/node:/data"
+      - "./data/test/ipc:/ipc"  
+    command: >
+      run
+        --database-path /data/test
+        --topology /config/testnet-topology.json
+        --config /config/testnet-config.json
+        --socket-path /test/ipc/node.socket
+        --host-addr 0.0.0.0
+        --port 3002
